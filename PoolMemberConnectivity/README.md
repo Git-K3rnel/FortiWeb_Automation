@@ -25,14 +25,6 @@ password ='PASSWORD'
 root_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #(username:password:root)
 ```
 
-## SSH Connection
-
-For SSH connection i use `paramiko`,  so don't forget to set your username and password in `do_ssh()` function :
-
-```python
-ssh.connect('WAF_IP_ADDRESS', username='YOUR_USERNAME', password='YOUR_PASSWORD')
-```
-
 ## Output
 
 After running the script, three files will be generated :
