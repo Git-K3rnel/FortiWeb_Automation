@@ -12,8 +12,7 @@ Just provide the IP address of your waf device in `baseurl` variable and set you
 baseurl = https://WAF_IP_ADDRESS/
 username = 'USERNAME'
 password ='PASSWORD'
-root_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_OF_CREDENTIALS"}
-other_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_OF_CREDENTIALS"}
+root_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #(username:password:root)
 ```
 
 if you want to access a specific `adom`, you shoud set the `Authorization` header as below template and base64 encode it :
