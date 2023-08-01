@@ -28,6 +28,6 @@ root_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_ENCODED_CR
 ## Output
 
 After running the script, three files will be generated :
-- 1.Records.txt--------------------Contains servers IP:Port that is used by script.
-- 2.Servers.txt---------------------A grepable file which you can use to see the final result (this is the file you should look at)
-- 3.Servers.json--------------------A json file generated for internal use by script, you can also use it to see the result as json.
+- 1.Records.txt : Contains servers IP:Port that is used by script.
+- 2.Servers.txt : A grepable file which you can use to see the final result (this is the file you should look at)
+- 3.Servers.json : A json file generated for internal use by script, you can also use it to see the result as json.
