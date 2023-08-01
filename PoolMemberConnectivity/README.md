@@ -9,7 +9,7 @@ then results are saved in `servers.txt` file, this script aslo finds the `server
 Just provide the IP address of your waf device in `baseurl` variable and set your base64 credentials of fortiweb in `Authorization` header in script
 
 ```python
-baseurl = https://WAF_IP_ADDRESS/
+baseurl = https://WAF_IP_ADDRESS:90/
 username = 'USERNAME'
 password ='PASSWORD'
 root_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #(username:password:root)
