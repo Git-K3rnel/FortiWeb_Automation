@@ -5,7 +5,7 @@ import base64
 import time
 from colorama import init, Fore, Style
 
-baseurl = ' https://WAF_IP_ADDRESS/'
+baseurl = ' https://WAF_IP_ADDRESS:90/'
 username = 'WAF_USERNAME'
 password ='WAF_PASSWORD'
 adomsList = []
