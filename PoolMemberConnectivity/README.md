@@ -12,6 +12,7 @@ then results are saved in `servers.txt` file, this script aslo finds the `server
 - Checks if a pool member is live on its port by executing `telnettest` command on WAF
 - Creates a JSON file containing all information mentioned above
 - Creates a greppable file (servers.txt) containing all information mentioned above
+- Colorful output to better detect the messages on terminal
 
 ## Usage
 
