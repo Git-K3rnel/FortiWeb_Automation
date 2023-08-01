@@ -1,6 +1,6 @@
 # Pool Member Connectivity
 
-In this script i try to find all pool members and their ports in a `FortiWeb` device with `API` calls and execute `telnet` on them.
+In this script i try to find all pool members and their ports in a `FortiWeb` device with `API` calls and execute `telnettest` on them.
 
 then results are saved in `servers.txt` file, this script aslo finds the `server policy` associated with corresponding `server pool`
 
