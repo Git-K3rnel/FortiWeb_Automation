@@ -5,7 +5,8 @@ import base64
 import time
 from colorama import init, Fore, Style
 
-baseurl = ' https://WAF_IP_ADDRESS:90/'
+waf_IP = 'WAF_IP_ADDRESS'
+baseurl = f'https://{waf_IP}:90/'
 username = 'WAF_USERNAME'
 password ='WAF_PASSWORD'
 adomsList = []
@@ -124,7 +125,7 @@ def makeServersTXT(result,adom,pool,fip,status,policy):
 def do_ssh():
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect('WAF_IP_ADDRESS', username='USERNAME', password='PASSWORD')
+    ssh.connect(waf_IP, username=username, password=password)
     with open('servers.json') as d:
         data = json.load(d)
         for adom, pool in data.items() :
