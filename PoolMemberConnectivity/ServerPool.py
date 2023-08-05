@@ -63,6 +63,29 @@ def getServerPolicy(cred,PoolName):
     return serverPoolList
 
 
+def getWebProtectionProfile(cred):
+    default_wpp = ['Inline High Level Security',
+    'Inline Medium Level Security',
+    'Inline Alert Only',
+    'Inline Exchange 2013',
+    'Inline Exchange 2016',
+    'Inline SharePoint 2013',
+    'Inline SharePoint 2016',
+    'Inline WordPress',
+    'Inline Drupal',
+    'Self_ProtectionPolicy']
+    empty_wpp = []
+    requests.packages.urllib3.disable_warnings()
+    other_header = {"Accept": "applicaiton/json", "Host": cred}
+    wpp_url = f'{baseurl}/api/v1.0/Policy/WebProtectionProfile/InlineProtectionProfile'
+    wpp_res = requests.get(wpp_url, verify=False, headers=other_header)
+    wpp_json = json.loads(wpp_res.text)
+    for each_wpp in wpp_json :
+        if 'URLAccess' not in each_wpp and each_wpp['name'] not in default_wpp:
+            empty_wpp.append(each_wpp['name'])
+    return empty_wpp
+
+
 def to_b64(list) :
     creds_b64 = []
     for i in list:
@@ -160,6 +183,15 @@ def main():
     
     with open('servers.json', 'w') as f :
         f.write(json.dumps(fdict))
+
+    with open('servers.txt', 'a') as h :
+        h.write(f'-------------------------------Web Protection Profiles-----------------------------\n\n')
+        h.write(f'Web protection profiles without URL access rule :\n')
+        for adom,cred in zip (adomsList,creds):
+            adom_decode = base64.b64decode(adom).decode("utf-8")
+            wpp = getWebProtectionProfile(cred)
+            h.write(f'\n{adom_decode}|{str(wpp)}\n')
+        h.write(f'\n-------------------------------Pool Members Status---------------------------------\n\n')
 
     print(f'{Style.RESET_ALL}\nAll data fetched and saved to "servers.txt" file')
 
