@@ -76,7 +76,7 @@ def getWebProtectionProfile(cred):
     'Self_ProtectionPolicy']
     empty_wpp = []
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "applicaiton/json", "Host": cred}
+    other_header = {"Accept": "applicaiton/json", "Authorization": cred}
     wpp_url = f'{baseurl}/api/v1.0/Policy/WebProtectionProfile/InlineProtectionProfile'
     wpp_res = requests.get(wpp_url, verify=False, headers=other_header)
     wpp_json = json.loads(wpp_res.text)
