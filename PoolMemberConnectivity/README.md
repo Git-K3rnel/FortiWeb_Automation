@@ -10,6 +10,7 @@ then results are saved in `servers.txt` file, this script aslo finds the `server
 - Finds all pool members status (enable/disable)
 - Finds all web protection profiles that don't have URL access rule
 - Finds which server policy a pool member belongs to
+- Finds Web Protection Profiles which does not have URL access rule
 - Checks if a pool member is live on its port by executing `telnettest` command on WAF
 - Creates a JSON file containing all information mentioned above
 - Creates a greppable file (servers.txt) containing all information mentioned above
