@@ -22,7 +22,7 @@ Just provide the IP address of your waf device in `baseurl` variable and set you
 
 ```python
 waf_IP = 'WAF_IP_ADDRESS'
-baseurl = f'https://{waf_IP}:90/'
+baseurl = f'https://{waf_IP}/'
 username = 'USERNAME'
 password ='PASSWORD'
 root_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #(username:password:root)
