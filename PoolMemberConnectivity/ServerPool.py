@@ -17,7 +17,7 @@ init()
 def getAdom():
     adoms = []
     requests.packages.urllib3.disable_warnings()
-    root_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #(username:password:root)
+    root_header = {"Accept": "application/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #(username:password:root)
     adoms_list_url = f'{baseurl}/api/v1.0/System/Status/Adoms'
     adoms_res = requests.get(adoms_list_url, verify=False, headers=root_header)
     adoms_json = json.loads(adoms_res.text)
@@ -30,7 +30,7 @@ def getServerPoolName(cred):
     temp_poolNames = []
     poolNames = []
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "applicaiton/json", "Authorization": cred}
+    other_header = {"Accept": "application/json", "Authorization": cred}
     server_pool_list_url = f'{baseurl}/api/v1.0/ServerObjects/Server/ServerPoolList'
     server_pool_res = requests.get(server_pool_list_url, verify=False, headers=other_header)
     server_pool_json = json.loads(server_pool_res.text)
@@ -43,7 +43,7 @@ def getServerPoolName(cred):
 
 def getPoolDetail(poolName,cred):
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "applicaiton/json", "Authorization": cred}
+    other_header = {"Accept": "application/json", "Authorization": cred}
     server_pool_detail_url = f'{baseurl}/api/v1.0/ServerObjects/Server/ServerPool/{poolName}/EditServerPoolRule'
     server_pool_detail_res = requests.get(server_pool_detail_url, verify=False, headers=other_header)
     server_pool_detail_json = json.loads(server_pool_detail_res.text)
@@ -53,7 +53,7 @@ def getPoolDetail(poolName,cred):
 def getServerPolicy(cred,PoolName):
     serverPoolList = []
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "applicaiton/json", "Authorization": cred}
+    other_header = {"Accept": "application/json", "Authorization": cred}
     server_policy_url = f'{baseurl}/api/v1.0/Policy/ServerPolicy/ServerPolicy'
     server_policy_res = requests.get(server_policy_url, verify=False, headers=other_header)
     server_policy_json = json.loads(server_policy_res.text)
@@ -76,7 +76,7 @@ def getWebProtectionProfile(cred):
     'Self_ProtectionPolicy']
     empty_wpp = []
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "applicaiton/json", "Authorization": cred}
+    other_header = {"Accept": "application/json", "Authorization": cred}
     wpp_url = f'{baseurl}/api/v1.0/Policy/WebProtectionProfile/InlineProtectionProfile'
     wpp_res = requests.get(wpp_url, verify=False, headers=other_header)
     wpp_json = json.loads(wpp_res.text)
