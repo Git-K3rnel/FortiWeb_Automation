@@ -18,7 +18,7 @@ then results are saved in `servers.txt` file, this script aslo finds the `server
 
 ## Changes
 
-In fortiweb version 6.3 and later authenticatoin mechanism has changed.
+1. In fortiweb version 6.3 and later authenticatoin mechanism has changed.
 
 you need to provide `username`, `password` and `vdom` in a json format like this :
 
@@ -32,7 +32,8 @@ you need to provide `username`, `password` and `vdom` in a json format like this
 
 and then base64 encode it and put it in `Authorization` header.
 
-also, API paths have changed which you can find them in fortinet REST API Documentation or through inspecting request in browser console.
+2. API paths have changed which you can find them in fortinet REST API Documentation or through inspecting request in browser console.
+3. Some data structres have changed.
 
 ## Usage
 
