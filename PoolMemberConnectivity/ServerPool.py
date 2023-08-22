@@ -6,7 +6,7 @@ import time
 from colorama import init, Fore, Style
 
 waf_IP = 'WAF_IP_ADDRESS'
-baseurl = f'https://{waf_IP}:90/'
+baseurl = f'https://{waf_IP}'
 username = 'WAF_USERNAME'
 password ='WAF_PASSWORD'
 adomsList = []
