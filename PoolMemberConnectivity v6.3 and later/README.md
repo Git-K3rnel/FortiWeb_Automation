@@ -44,7 +44,7 @@ waf_IP = 'WAF_IP_ADDRESS'
 baseurl = f'https://{waf_IP}/'
 username = 'USERNAME'
 password ='PASSWORD'
-root_header = {"Accept": "applicaiton/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #{"username":"admin","password":"xxxxx","vdom":"root"}
+root_header = {"Accept": "application/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #{"username":"admin","password":"xxxxx","vdom":"root"}
 ```
 
 ## Output
