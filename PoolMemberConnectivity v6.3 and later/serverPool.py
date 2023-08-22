@@ -10,6 +10,7 @@ baseurl = ''
 username = ''
 password = ''
 waf_ip = ''
+adomsList = []
 
 # Initialize colorama
 init()
@@ -18,7 +19,7 @@ init()
 def getAdom():
     adoms = []
     requests.packages.urllib3.disable_warnings()
-    root_header = {"Accept": "application/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"}
+    root_header = {"Accept": "application/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #{"username":"admin","password":"xxxxx","vdom":"root"}
     adoms_list_url = f'{baseurl}/api/v2.0/System/Status.Adoms'
     adoms_res = requests.get(adoms_list_url, verify=False, headers=root_header)
     adoms_json = json.loads(adoms_res.text)
@@ -27,11 +28,11 @@ def getAdom():
     return adoms
 
 
-def getServerPoolName(adom):
+def getServerPoolName(cred):
     temp_poolNames = []
     poolNames = []
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "application/json", "Authorization": adom}
+    other_header = {"Accept": "application/json", "Authorization": cred}
     server_pool_list_url = f'{baseurl}/api/v2.0/cmdb/server-policy/server-pool'
     server_pool_res = requests.get(server_pool_list_url, verify=False, headers=other_header)
     server_pool_json = json.loads(server_pool_res.text)
@@ -42,19 +43,19 @@ def getServerPoolName(adom):
     return poolNames
 
 
-def getPoolDetail(poolName,adom):
+def getPoolDetail(poolName,cred):
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "application/json", "Authorization": adom}
+    other_header = {"Accept": "application/json", "Authorization": cred}
     server_pool_detail_url = f'{baseurl}/api/v2.0/cmdb/server-policy/server-pool/pserver-list?mkey={poolName}'
     server_pool_detail_res = requests.get(server_pool_detail_url, verify=False, headers=other_header)
     server_pool_detail_json = json.loads(server_pool_detail_res.text)
     return server_pool_detail_json['results']
 
 
-def getServerPolicy(adom,PoolName):
+def getServerPolicy(cred,PoolName):
     serverPoolList = []
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "application/json", "Authorization": adom}
+    other_header = {"Accept": "application/json", "Authorization": cred}
     server_policy_url = f'{baseurl}/api/v2.0/cmdb/server-policy/policy'
     server_policy_res = requests.get(server_policy_url, verify=False, headers=other_header)
     server_policy_json = json.loads(server_policy_res.text)
@@ -64,7 +65,7 @@ def getServerPolicy(adom,PoolName):
     return serverPoolList
 
 
-def getWebProtectionProfile(adom):
+def getWebProtectionProfile(cred):
     default_wpp = [
         'Inline Standard Protection',
         'Inline Extended Protection',
@@ -79,7 +80,7 @@ def getWebProtectionProfile(adom):
     ]
     empty_wpp = []
     requests.packages.urllib3.disable_warnings()
-    other_header = {"Accept": "applicaiton/json", "Authorization": adom}
+    other_header = {"Accept": "applicaiton/json", "Authorization": cred}
     wpp_url = f'{baseurl}/api/v2.0/cmdb/waf/web-protection-profile.inline-protection'
     wpp_res = requests.get(wpp_url, verify=False, headers=other_header)
     wpp_json = json.loads(wpp_res.text)
@@ -90,13 +91,14 @@ def getWebProtectionProfile(adom):
 
 
 def to_b64(list) :
-    adoms_b64 = []
+    creds_b64 = []
     for i in list:
-        jsonAdom = f'","vdom":"{i}"'
-        jsonAdom += '}'
-        b64 = base64.b64encode(jsonAdom.encode('ascii'))
-        adoms_b64.append(b64.decode('utf-8'))
-    return adoms_b64
+        creds = f'{username}:{password}:{i}'
+        cred_b64 = base64.b64encode(creds.encode('ascii'))
+        adom_b64 = base64.b64encode(i.encode('ascii'))
+        adomsList.append(adom_b64)
+        creds_b64.append(cred_b64.decode('utf-8'))
+    return creds_b64
 
 
 def clearFileContent():
@@ -178,23 +180,23 @@ def do_ssh():
 
 
 def main():
-    adoms = to_b64(getAdom())
+    creds = to_b64(getAdom())
     fdict = {}
     pattern = r'"([^"]+)"[^"]*$'
     clearFileContent()
-    for adom in adoms:
+    for adom,cred in zip (adomsList,creds):
         adom_decode = base64.b64decode(adom).decode("utf-8")
         match = re.search(pattern, adom_decode)
         captureVdom = match.group(1)
         print(f'{Style.RESET_ALL}\nGetting {Fore.YELLOW}"{captureVdom}"{Style.RESET_ALL} pool members :')
-        spn = getServerPoolName(adom)
+        spn = getServerPoolName(cred)
         sdict= {}
         fdict[captureVdom] = sdict
         totalPoolMember = 0
         for i in spn :
             print(f'{Fore.GREEN}[+] {i}')
-            serverPool = getServerPolicy(adom,i)
-            poolDetail = getPoolDetail(i,adom)
+            serverPool = getServerPolicy(cred,i)
+            poolDetail = getPoolDetail(i,cred)
             finalJson = makeJson(poolDetail,serverPool)
             makeRecordsTXT(poolDetail)
             sdict[i] = finalJson
@@ -207,11 +209,11 @@ def main():
     with open('servers.txt', 'a') as h :
         h.write(f'-------------------------------Web Protection Profiles-----------------------------\n\n')
         h.write(f'Web protection profiles without URL access rule :\n')
-        for adom in adoms:
+        for adom,cred in zip (adomsList,creds):
             adom_decode = base64.b64decode(adom).decode("utf-8")
             match = re.search(pattern, adom_decode)
             captureVdom = match.group(1)
-            wpp = getWebProtectionProfile(adom)
+            wpp = getWebProtectionProfile(cred)
             h.write(f'\n{captureVdom}|{str(wpp)}\n')
         h.write(f'\n-------------------------------Pool Members Status---------------------------------\n')
         h.write(f'| VDOM | Pool Member | Address | Status | Policy Name | Connectivity |\n\n')
