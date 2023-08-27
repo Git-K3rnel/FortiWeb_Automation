@@ -427,6 +427,7 @@ def main():
         exit()
 
     check_ping()
+    ssh.close()
 
 if __name__ == '__main__':
     main()
