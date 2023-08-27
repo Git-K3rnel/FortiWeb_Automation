@@ -63,7 +63,7 @@ def get_server_pool_name(cred):
     server_pool_list_url = f'{baseurl}/api/v2.0/cmdb/server-policy/server-pool'
     server_pool_res = requests.get(server_pool_list_url, verify=False, headers=other_header)
     server_pool_json = json.loads(server_pool_res.text)
-    for spn in server_pool_json['results'][:10]:
+    for spn in server_pool_json['results']:
         temp_poolNames.append(spn['name'])
     for i in temp_poolNames:
         poolNames.append(i)
@@ -372,7 +372,7 @@ def main():
     pattern = r'"([^"]+)"[^"]*$'
     clear_file_content()
     # Loops through all adoms and gets pool details.
-    for adom, cred in zip(adomsList[:2], creds):
+    for adom, cred in zip(adomsList, creds):
         adom_decode = base64.b64decode(adom).decode("utf-8")
         print(f'{Style.RESET_ALL}\nGetting {Fore.YELLOW}"{adom_decode}"{Style.RESET_ALL} pool members :')
         spn = get_server_pool_name(cred)
