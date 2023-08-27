@@ -60,6 +60,25 @@ password ='PASSWORD'
 root_header = {"Accept": "application/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #{"username":"admin","password":"xxxxx","vdom":"root"}
 ```
 
+
+You can also run this script with `argparse.py` file and pass the argument to it to do its job :
+
+
+```python
+python.exe argparse -h
+
+usage: PROG [-h] [-m] [-si] [-ar]
+
+WAF Menue
+
+options:
+  -h, --help          show this help message and exit
+  -m, --main          Runs script main function
+  -si, --sessionInfo  Gets seesion count, concurrent sessions and response
+                      time
+  -ar, --arplist      Gets Device ARP list
+```
+
 ## Output
 
 After running the script, three files will be generated :
