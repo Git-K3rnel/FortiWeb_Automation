@@ -5,16 +5,18 @@ In this script i try to find all pool members and their ports in a `FortiWeb` de
 then results are saved in `servers.txt` file, this script aslo finds the `server policy` associated with corresponding `server pool`
 
 ## Features
-- Finds all pool members in all ADOMS
-- Finds all ports associated with pool members
-- Finds all pool members status (enable/disable)
-- Finds all web protection profiles that don't have URL access rule
-- Finds which server policy a pool member belongs to
-- Finds Web Protection Profiles which does not have URL access rule
-- Checks if a pool member is live on its port by executing `telnettest` command on WAF
-- Creates a JSON file containing all information mentioned above
-- Creates a greppable file (servers.txt) containing all information mentioned above
-- Colorful output to better detect the messages on terminal
+- Finds all pool members in all ADOMS.
+- Finds all ports associated with pool members.
+- Finds all pool members status (enable/disable).
+- Finds all web protection profiles that don't have URL access rule.
+- Finds which server policy a pool member belongs to.
+- Finds Web Protection Profiles which does not have URL access rule.
+- Gets Device ARP List.
+- Checks if a pool member is live on its port by executing `telnettest` command on WAF.
+- Pool members which do not have telnet access are pinged to make sure they are down.
+- Creates a JSON file containing all information mentioned above.
+- Creates a greppable file (servers.txt) containing all information mentioned above.
+- Colorful output to better detect the messages on terminal.
 
 ## Changes
 
@@ -34,6 +36,17 @@ then results are saved in `servers.txt` file, this script aslo finds the `server
 
 2. API paths have changed which you can find them in fortinet REST API Documentation or through inspecting request in browser console.
 3. Some data structres have changed.
+
+## Requirement
+Before using this script you need to have these components installed :
+```bash
+- python 3.x >
+- paramiko
+- requests
+- json
+- base64
+- colorama
+```
 
 ## Usage
 
