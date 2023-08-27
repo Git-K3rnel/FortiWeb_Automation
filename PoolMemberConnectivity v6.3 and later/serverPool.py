@@ -12,6 +12,8 @@ password = ''
 waf_ip = ''
 adomsList = []
 no_telnet = []
+root_auth_string = f'{{"username":"{username}","password":"{password}","vdom":"root"}}'
+root_auth_base64 = base64.b64encode(root_auth_string.encode('ascii'))
 
 # Initialize colorama
 init()
@@ -37,7 +39,7 @@ def get_adom():
     """
     adoms = []
     requests.packages.urllib3.disable_warnings()
-    root_header = {"Accept": "application/json", "Authorization": "BASE64_ENCODED_OF_CREDENTIALS"} # {"username":"YOUR_USERNAME","password":"YOUR_PASSWORD","vdom":"root"}
+    root_header = {"Accept": "application/json", "Authorization": root_auth_base64} # {"username":"YOUR_USERNAME","password":"YOUR_PASSWORD","vdom":"root"}
     adoms_list_url = f'{baseurl}/api/v2.0/System/Status.Adoms'
     adoms_res = requests.get(adoms_list_url, verify=False, headers=root_header)
     adoms_json = json.loads(adoms_res.text)
