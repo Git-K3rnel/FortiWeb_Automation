@@ -52,14 +52,13 @@ Before using this script you need to have these components installed :
 
 ## Usage
 
-Just provide the IP address of your waf device in `baseurl` variable and set your base64 credentials of fortiweb in `Authorization` header in script
+Just provide the IP address of your waf device in `waf_IP` variable and your username and password:
 
 ```python
 waf_IP = 'WAF_IP_ADDRESS'
 baseurl = f'https://{waf_IP}/'
 username = 'USERNAME'
 password ='PASSWORD'
-root_header = {"Accept": "application/json", "Authorization": "BASE64_ENCODED_CREDS_OF_ROOT_ADOM"} #{"username":"admin","password":"xxxxx","vdom":"root"}
 ```
 
 
