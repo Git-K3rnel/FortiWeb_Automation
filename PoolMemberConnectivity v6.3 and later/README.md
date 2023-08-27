@@ -18,6 +18,7 @@ rest of the features are as follows :
 - Pool members which do not have telnet access are pinged to make sure they are down.
 - Creates a JSON file containing all information mentioned above.
 - Creates a greppable file (servers.txt) containing all information mentioned above.
+- User-friendly command-line interface.
 - Colorful output to better detect the messages on terminal.
 
 ## Changes
