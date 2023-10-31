@@ -253,7 +253,7 @@ def to_b64(lst):
 
 def display_menu():
     print(f'''
-    Enter a number to show the results :
+    Enter an option to show the results :
         {Fore.GREEN}[1] {Style.RESET_ALL}Show policies in monitor mode
         {Fore.GREEN}[2] {Style.RESET_ALL}Show policies without web protection profile
         {Fore.GREEN}[3] {Style.RESET_ALL}Show policies without protected hostname
@@ -271,7 +271,7 @@ def display_menu():
 def get_user_choice():
     numberList = ['1','2','3','4','5','6','7','8','9','0','a']
     while True:
-        choice = input(f"{Style.RESET_ALL}Enter your option number: ")
+        choice = input(f"{Style.RESET_ALL}Enter your option: ")
         if choice in numberList:
             return choice
         else :
