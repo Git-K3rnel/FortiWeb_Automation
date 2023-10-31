@@ -186,8 +186,8 @@ def get_pool_members_with_server_type_domain(cred):
   
 
 def get_all_reports(adom_decode, cred):
-    with open('report.txt', 'a') as r:
-        r.write(f'\n\n----------------{adom_decode} report----------------\n')
+    with open('report.md', 'a') as r:
+        r.write(f'\n\n----------------{adom_decode}_report----------------\n')
         
         r.write('\t-Policies in monitor mode:\n')
         print(f'{Fore.GREEN}[+]{Style.RESET_ALL} Working on policies in monitor mode')
@@ -264,7 +264,7 @@ def display_menu():
         {Fore.GREEN}[8] {Style.RESET_ALL}Show web portection profiles without signature
         {Fore.GREEN}[9] {Style.RESET_ALL}Show web portection profiles without protocol HTTP Constraint
         {Fore.GREEN}[10] {Style.RESET_ALL}Show server pool which its pool member server-type is domain
-        {Fore.GREEN}[a] {Style.RESET_ALL}Get all reports at once (will be saved to file "report.txt")
+        {Fore.GREEN}[a] {Style.RESET_ALL}Get all reports at once (will be saved to file "report.md")
         {Fore.GREEN}[0] {Style.RESET_ALL}exit\n''')
 
 
