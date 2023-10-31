@@ -3,7 +3,7 @@
 ## Intro
 As you know fortiweb does not always give the reports you may need, so you may think of a custom, modular script to get exactly what you want.
 
-here is my script trying to assisst you to get what you need out of different fortiweb features and combine it together to get a fully customize report.
+here is my script trying to assist  you to get what you need out of different fortiweb features and combine it together to get a fully customize report.
 
 this script provides 10 custom popular and most needed reports which may come handy when you work with fortiweb, these reports are :
 
