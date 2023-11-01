@@ -17,6 +17,7 @@ this script provides 10 custom popular and most needed reports which may come ha
 - Showing web portection profiles without signature
 - Showing web portection profiles without protocol HTTP Constraint
 - Showing server pool which its pool member server-type is domain
+- Showing Objects that have no dependency to remove them from the WAF
 
 you can also add aditional reports as you need to the script.
 
