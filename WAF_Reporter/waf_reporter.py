@@ -490,7 +490,7 @@ Enter an option to show the results :
 
 
 def get_user_choice():
-    numberList = ['1','2','3','4','5','6','7','8','9','0','a','b']
+    numberList = ['1','2','3','4','5','6','7','8','9','10','0','a','b']
     while True:
         choice = input(f"{Style.RESET_ALL}Enter your option: ")
         if choice in numberList:
