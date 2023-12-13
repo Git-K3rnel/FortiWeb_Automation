@@ -97,6 +97,57 @@ def get_server_policies_HSTS_disable(cred):
     return server_policies_with_hsts_disable
 
 
+def get_server_policies_tlog_disable(cred):
+    server_policies_with_tlog_disable = []
+    all_server_policies = get_api_response('/api/v2.0/cmdb/server-policy/policy',cred)
+    for serverPolicy in all_server_policies:
+        server_policy_entity = get_api_response(f'/api/v2.0/cmdb/server-policy/policy?mkey={serverPolicy["name"]}',cred)
+        if server_policy_entity['tlog'] == 'disable':
+            server_policies_with_tlog_disable.append(serverPolicy['name'])
+    return server_policies_with_tlog_disable
+
+
+def get_server_policies_noparse_disable(cred):
+    server_policies_with_noparse_disable = []
+    all_server_policies = get_api_response('/api/v2.0/cmdb/server-policy/policy',cred)
+    for serverPolicy in all_server_policies:
+        server_policy_entity = get_api_response(f'/api/v2.0/cmdb/server-policy/policy?mkey={serverPolicy["name"]}',cred)
+        if server_policy_entity['noparse'] == 'enable':
+            server_policies_with_noparse_disable.append(serverPolicy['name'])
+    return server_policies_with_noparse_disable
+
+
+def get_server_policies_with_default_error_page(cred):
+    server_policies_with_default_error_page = []
+    all_server_policies = get_api_response('/api/v2.0/cmdb/server-policy/policy',cred)
+    for serverPolicy in all_server_policies:
+        server_policy_entity = get_api_response(f'/api/v2.0/cmdb/server-policy/policy?mkey={serverPolicy["name"]}',cred)
+        if server_policy_entity['replacemsg'] == 'Predefined':
+            server_policies_with_default_error_page.append(serverPolicy['name'])
+    return server_policies_with_default_error_page
+
+
+def get_server_policies_without_http_redirect(cred):
+    server_policies_wihtout_http_redirect = []
+    all_server_policies = get_api_response('/api/v2.0/cmdb/server-policy/policy',cred)
+    for serverPolicy in all_server_policies:
+        server_policy_entity = get_api_response(f'/api/v2.0/cmdb/server-policy/policy?mkey={serverPolicy["name"]}',cred)
+        if server_policy_entity['http-to-https'] == 'disable':
+            server_policies_wihtout_http_redirect.append(serverPolicy['name'])
+    return server_policies_wihtout_http_redirect
+
+
+def get_server_policies_only_http(cred):
+    server_policies_only_http = []
+    all_server_policies = get_api_response('/api/v2.0/cmdb/server-policy/policy',cred)
+    for serverPolicy in all_server_policies:
+        server_policy_entity = get_api_response(f'/api/v2.0/cmdb/server-policy/policy?mkey={serverPolicy["name"]}',cred)
+        if server_policy_entity['https-service'] == '':
+            server_policies_only_http.append(serverPolicy['name'])
+    return server_policies_only_http
+
+
+
 def get_web_protection_profiles_without_signature(cred,operation_mode=1):
     '''
     operation_mode values :
@@ -127,11 +178,9 @@ def get_web_protection_profiles_without_signature(cred,operation_mode=1):
         return web_protection_profiles_without_signature
     elif operation_mode == 2:
         for wpp in all_web_protection_profiles:
-            if wpp['q_ref'] == 0:
+            if wpp['q_ref'] == 0 and wpp['name'].lower() != 'template':
                 web_protection_profiles_without_dependency.append(wpp['name'])
         return web_protection_profiles_without_dependency
-
-        
 
 
 def get_web_protection_profiles_without_HTTP_protocol_constraint(cred):
@@ -187,7 +236,6 @@ def get_url_access_policy_without_deny(cred,operation_mode=1):
         return url_access_policy_without_dependency
 
 
-    
 
 def get_url_access_rule_with_action_pass(cred,operation_mode=1):
     '''
@@ -353,6 +401,41 @@ def get_all_reports(adom_decode, cred):
         r.write(f'\t\t{str(server_policies_HSTS_disable)}\n')
         print(f'{Fore.GREEN}ok')
 
+        r.write('\t-Policies which Traffic Log is disable:\n')
+        print(f'{Fore.GREEN}[+]{Style.RESET_ALL} Working on policies which Traffic Log is disable',end=' ')
+        sys.stdout.flush()
+        server_policies_tlog_disable = f'{get_server_policies_tlog_disable(cred)}\n'
+        r.write(f'\t\t{str(server_policies_tlog_disable)}\n')
+        print(f'{Fore.GREEN}ok')
+
+        r.write('\t-Policies which noParse is enable:\n')
+        print(f'{Fore.GREEN}[+]{Style.RESET_ALL} Working on policies which noParse is enable',end=' ')
+        sys.stdout.flush()
+        server_policies_noParse_disable = f'{get_server_policies_noparse_disable(cred)}\n'
+        r.write(f'\t\t{str(server_policies_noParse_disable)}\n')
+        print(f'{Fore.GREEN}ok')
+
+        r.write('\t-Policies with default error page:\n')
+        print(f'{Fore.GREEN}[+]{Style.RESET_ALL} Working on policies with default error page',end=' ')
+        sys.stdout.flush()
+        get_server_policies_default_error_page = f'{get_server_policies_with_default_error_page(cred)}\n'
+        r.write(f'\t\t{str(get_server_policies_default_error_page)}\n')
+        print(f'{Fore.GREEN}ok')
+
+        r.write('\t-Policies without http redirect:\n')
+        print(f'{Fore.GREEN}[+]{Style.RESET_ALL} Working on policies without http redirect',end=' ')
+        sys.stdout.flush()
+        get_server_policies_no_http_redirect = f'{get_server_policies_without_http_redirect(cred)}\n'
+        r.write(f'\t\t{str(get_server_policies_no_http_redirect)}\n')
+        print(f'{Fore.GREEN}ok')
+
+        r.write('\t-Policies Which are only http:\n')
+        print(f'{Fore.GREEN}[+]{Style.RESET_ALL} Working on policies which are only http',end=' ')
+        sys.stdout.flush()
+        get_server_policies_which_only_http = f'{get_server_policies_only_http(cred)}\n'
+        r.write(f'\t\t{str(get_server_policies_which_only_http)}\n')
+        print(f'{Fore.GREEN}ok')
+
         r.write('\t-URL access rules with action "pass":\n')
         print(f'{Fore.GREEN}[+]{Style.RESET_ALL} Working on URL access rules with action "pass"',end=' ')
         sys.stdout.flush()
@@ -474,23 +557,44 @@ def display_menu():
                         Version 1.0                         
 
 Enter an option to show the results :
+          
+    {Fore.YELLOW}Policy:
+    --------------------------------------
     {Fore.GREEN}[1] {Style.RESET_ALL}Show policies in monitor mode
     {Fore.GREEN}[2] {Style.RESET_ALL}Show policies without web protection profile
     {Fore.GREEN}[3] {Style.RESET_ALL}Show policies without protected hostname
     {Fore.GREEN}[4] {Style.RESET_ALL}Show policies which SSL/TLS Encryption Level is medium
     {Fore.GREEN}[5] {Style.RESET_ALL}Show policies which HSTS is disable
-    {Fore.GREEN}[6] {Style.RESET_ALL}Show URL access rules with action "pass"
-    {Fore.GREEN}[7] {Style.RESET_ALL}Show URL access policies without deny rule
-    {Fore.GREEN}[8] {Style.RESET_ALL}Show web portection profiles without signature
-    {Fore.GREEN}[9] {Style.RESET_ALL}Show web portection profiles without protocol HTTP Constraint
-    {Fore.GREEN}[10] {Style.RESET_ALL}Show server pool which its pool member server-type is domain
+    {Fore.GREEN}[6] {Style.RESET_ALL}Show policies which traffic log is disable
+    {Fore.GREEN}[7] {Style.RESET_ALL}Show policies which no-parse is enable
+    {Fore.GREEN}[8] {Style.RESET_ALL}Show policies with default error page
+    {Fore.GREEN}[9] {Style.RESET_ALL}Show policies without http redirect
+    {Fore.GREEN}[10] {Style.RESET_ALL}Show policies which are only http
+    
+    {Fore.YELLOW}URL Access:
+    --------------------------------------
+    {Fore.GREEN}[11] {Style.RESET_ALL}Show URL access rules with action "pass"
+    {Fore.GREEN}[12] {Style.RESET_ALL}Show URL access policies without deny rule
+    
+    {Fore.YELLOW}Web Protection:
+    --------------------------------------
+    {Fore.GREEN}[13] {Style.RESET_ALL}Show web portection profiles without signature
+    {Fore.GREEN}[14] {Style.RESET_ALL}Show web portection profiles without protocol HTTP Constraint
+    
+    {Fore.YELLOW}Server Pool:
+    --------------------------------------
+    {Fore.GREEN}[15] {Style.RESET_ALL}Show server pool which its pool member server-type is domain
+    
+    {Fore.YELLOW}Reports:
+    --------------------------------------
     {Fore.GREEN}[a] {Style.RESET_ALL}Get all reports at once (will be saved to file "report.md")
-    {Fore.GREEN}[b] {Style.RESET_ALL}Get all objects with no dependency (will be saved to file "object_status.md")
+    {Fore.GREEN}[b] {Style.RESET_ALL}Get all objects with no dependency (Output save as "object_status.md")
+    
     {Fore.GREEN}[0] {Style.RESET_ALL}exit\n''')
 
 
 def get_user_choice():
-    numberList = ['1','2','3','4','5','6','7','8','9','10','0','a','b']
+    numberList = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','0','a','b']
     while True:
         choice = input(f"{Style.RESET_ALL}Enter your option: ")
         if choice in numberList:
@@ -509,7 +613,7 @@ def main():
             print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies in monitor mode:')
             print(get_server_policy_in_monitor_mode(cred))
         elif userChoice == '2':
-            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies without web protection profiles::')
+            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies without web protection profiles:')
             print(get_server_policy_without_webProtectionProfile(cred))
         elif userChoice == '3':
             print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies without protected hostname:')
@@ -521,18 +625,33 @@ def main():
             print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies which HSTS is disable:')
             print(get_server_policies_HSTS_disable(cred))
         elif userChoice == '6':
-            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} URL access rules with action "pass":')
-            print(get_url_access_rule_with_action_pass(cred))
+            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies which Traffic Log is disable:')
+            print(get_server_policies_tlog_disable(cred))
         elif userChoice == '7':
+            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies which noParse is enable:')
+            print(get_server_policies_noparse_disable(cred))
+        elif userChoice == '8':
+            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies with default error page:')
+            print(get_server_policies_with_default_error_page(cred))
+        elif userChoice == '9':
+            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies wihtout http redirect:')
+            print(get_server_policies_without_http_redirect(cred))
+        elif userChoice == '10':
+            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Server Policies which are only http:')
+            print(get_server_policies_only_http(cred))
+        elif userChoice == '11':
+            print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} URL access rules with action "pass":')
+            print(get_server_policies_noparse_disable(cred))
+        elif userChoice == '12':
             print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} URL access policies without deny:')
             print(get_url_access_policy_without_deny(cred))
-        elif userChoice == '8':
+        elif userChoice == '13':
             print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Web Protection Profiles without signature:')
             print(get_web_protection_profiles_without_signature(cred))
-        elif userChoice == '9':
+        elif userChoice == '14':
             print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Web Protection Profiles without HTTP protocol constraint:')
             print(get_web_protection_profiles_without_HTTP_protocol_constraint(cred))
-        elif userChoice == '10':
+        elif userChoice == '15':
             print(f'{Style.RESET_ALL}\nGetting {Fore.GREEN}"{adom_decode}"{Style.RESET_ALL} Pool names which server type is domain:')
             print(get_pool_members_with_server_type_domain(cred))
         elif userChoice == 'a':
