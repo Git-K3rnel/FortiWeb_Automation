@@ -12,6 +12,11 @@ this script provides 10 custom popular and most needed reports which may come ha
 - Showing policies without protected hostname
 - Showing policies which SSL/TLS Encryption Level is medium
 - Showing policies which HSTS is disable
+- Show policies which traffic log is disable
+- Show policies which no-parse is enable
+- Show policies with default error page
+- Show policies without http redirect
+- Show policies which are only http
 - Showing URL access rules with action "pass"
 - Showing URL access policies without deny rule
 - Showing web portection profiles without signature
