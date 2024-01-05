@@ -33,3 +33,7 @@ you can also add aditional reports as you need to the script.
 ---
 
 # Check_Allowed_Hosts Script
+
+This script check if a policy has any url access rule to block any incoming internet traffic.
+
+both policies with content routing and normal policies will be checked
