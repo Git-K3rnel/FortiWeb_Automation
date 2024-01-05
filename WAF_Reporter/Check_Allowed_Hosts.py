@@ -137,7 +137,7 @@ def allowed_normal_policy(cred,policy_name):
 def main():
     creds = to_b64(get_adom())
     # step1 get all server policy names
-    for adom, cred in zip(adomsList[2:3], creds[2:3]):
+    for adom, cred in zip(adomsList[], creds[]):
         adom_decode = base64.b64decode(adom).decode("utf-8")
         print(f'Get {adom_decode} list')
         server_policy_list = get_server_policy_list(cred)
