@@ -155,4 +155,5 @@ def main():
             # print(f'{policy_name} has {content_route_size}')
 
 
-main()
+if __name__ == '__main__':
+    main()
