@@ -30,3 +30,6 @@ you can also add aditional reports as you need to the script.
 - Install modules in `requirements.txt`
 - Provide username and passwords for connecting to WAF
 - Provide WAF url in `baseurl` variable (Ex. https://IP_ADDRESS)
+---
+
+# Check_Allowed_Hosts Script
