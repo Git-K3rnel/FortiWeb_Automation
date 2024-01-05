@@ -105,3 +105,54 @@ def allowed_policy_content_routes(cred, policy_name):
                 allowed_policy_content_routes.append(
                     content_route_entry['content-routing-policy-name'])
     return allowed_policy_content_routes
+
+def allowed_normal_policy(cred,policy_name):
+    isAllowed = True
+    allowed_policies = []
+    url1 = f'/api/v2.0/cmdb/server-policy/policy?mkey={policy_name}'
+    policy_detail = get_api_response(url1,cred)
+    web_protection_profile_name = policy_detail['web-protection-profile']
+    if web_protection_profile_name == '':
+        print(f'{policy_name} has no wpp')
+    else:
+        web_protection_profile_name_encoded = requests.utils.quote(web_protection_profile_name)
+        url3 = f'/api/v2.0/cmdb/waf/web-protection-profile.inline-protection?mkey={web_protection_profile_name_encoded}'
+        web_protection_profile_detail = get_api_response(url3, cred)
+        url_access_policy_name = web_protection_profile_detail['url-access-policy']
+        if url_access_policy_name == 'Deny Zone to Zone':
+            pass
+        else:
+            url4 = f'/api/v2.0/cmdb/waf/url-access.url-access-policy/rule?mkey={url_access_policy_name}'
+            url_access_policy_list = get_api_response(url4, cred)
+            for url_access_rule in url_access_policy_list:
+                if url_access_rule['url-access-rule-name'] == 'deny' or url_access_rule['url-access-rule-name'] == 'Deny' or url_access_rule['url-access-rule-name'] == 'block' or url_access_rule['url-access-rule-name'] == 'Block' or url_access_rule['url-access-rule-name'] == 'deny 160' or url_access_rule['url-access-rule-name'] == 'deny 68':
+                    isAllowed = False
+                else:
+                    pass
+            if isAllowed:
+                allowed_policies.append(policy_name)
+    return allowed_policies
+
+
+def main():
+    creds = to_b64(get_adom())
+    # step1 get all server policy names
+    for adom, cred in zip(adomsList[2:3], creds[2:3]):
+        adom_decode = base64.b64decode(adom).decode("utf-8")
+        print(f'Get {adom_decode} list')
+        server_policy_list = get_server_policy_list(cred)
+        # step2 check if policy has content route
+        for policy_entry in server_policy_list:
+            content_route_size = get_policy_content_route_size(cred, policy_entry['name'])
+            if content_route_size != 0:
+                pass
+                allowed_content_routes = allowed_policy_content_routes(cred, policy_entry['name'])
+                print(
+                    f'{policy_entry["name"]}:{policy_entry["vserver"]}:{allowed_content_routes}')
+            else:
+                allowed_normal_policies = allowed_normal_policy(cred,policy_entry['name'])
+                print(allowed_normal_policies)
+            # print(f'{policy_name} has {content_route_size}')
+
+
+main()
