@@ -141,10 +141,10 @@ def allowed_normal_policy(cred,policy_name):
 
 
 def main():
-    print("Dumping Pendar Json...")
-    save_pendar_firewall_policy_json()
-    print("Dumping atash Json...")
-    save_atash_firewall_policy_json()
+    print("Dumping firewall2 Json...")
+    save_firewall2_firewall_policy_json()
+    print("Dumping firewall1 Json...")
+    save_firewall1_firewall_policy_json()
     csv_data = [
         ['Flag', 'ADOM', 'WAF_Policy_Name', 'Content_Routes/Policy_Name', 'Hostname', 'VIP', 'Firewall_Name', 'Policy_ID', 'Public_IP']
 
@@ -178,14 +178,14 @@ def main():
                     temp_list.append(policy_entry["vserver"])
                     desired_octets = policy_entry["vserver"].replace('192.168.','').strip()
                     if '69' in desired_octets:
-                        pendar_list = check_pendar_policy(desired_octets)
-                        for each_entry in pendar_list:
+                        firewall2_list = check_firewall2_policy(desired_octets)
+                        for each_entry in firewall2_list:
                             temp_list.append(each_entry[0])
                             temp_list.append(each_entry[1])
                             temp_list.append(each_entry[2])
                     else:
-                        atash_list = check_atash_policy(desired_octets)
-                        for each_entry in atash_list:
+                        firewall1_list = check_firewall1_policy(desired_octets)
+                        for each_entry in firewall1_list:
                             temp_list.append(each_entry[0])
                             temp_list.append(each_entry[1])
                             temp_list.append(each_entry[2])
@@ -210,14 +210,14 @@ def main():
                     temp_list.append(policy_entry["vserver"])
                     desired_octets = policy_entry["vserver"].replace('192.168.','').strip()
                     if '69' in desired_octets:
-                        pendar_list = check_pendar_policy(desired_octets)
-                        for each_entry in pendar_list:
+                        firewall2_list = check_firewall2_policy(desired_octets)
+                        for each_entry in firewall2_list:
                             temp_list.append(each_entry[0])
                             temp_list.append(each_entry[1])
                             temp_list.append(each_entry[2])
                     else:
-                        atash_list = check_atash_policy(desired_octets)
-                        for each_entry in atash_list:
+                        firewall1_list = check_firewall1_policy(desired_octets)
+                        for each_entry in firewall1_list:
                             temp_list.append(each_entry[0])
                             temp_list.append(each_entry[1])
                             temp_list.append(each_entry[2])
