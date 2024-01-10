@@ -1,0 +1,9 @@
+policy_name,public_ip,firewall_name
+policy1,1.1.1.1,atash
+policy2,2.2.2.2,pendar
+policy3,3.3.3.3,pendar
+policy4,4.4.4.4,pendar
+policy5,5.5.5.5,pendar
+policy6,6.6.6.6,pendar
+policy7,7.7.7.7,pendar
+policy8,8.8.8.8,pendar
